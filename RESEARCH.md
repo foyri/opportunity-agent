@@ -86,11 +86,54 @@ This document provides a technical breakdown of the target hiring platforms in C
     - **V2EX**: Use RSS feeds or simple HTML parsing for `/go/jobs`.
     - **XHS**: Playwright-based keyword search on post content.
 
-## Implementation Recommendations
+## Web Search Findings (2026-03-04)
 
-1.  **Hybrid Data Acquisition**: 
-    - Use **Official APIs** for Zhaopin, 51job, and Liepin (structured, reliable).
-    - Use **Playwright + Stealth** for BOSS, Lagou, and WeChat (high-value but gated).
-2.  **Compliance**: Ensure real-name authentication is completed for API access. Respect non-commercial usage terms.
-3.  **Low-Code Integration**: Consider using **Coze** plugins for initial data pulling from platforms with existing plugins.
-4.  **Security**: Handle browser fingerprinting carefully for non-API platforms (BOSS, Lagou) to avoid account bans.
+### Key Discoveries
+
+1. **智联招聘 (Zhaopin)**
+   - Has unofficial/internal APIs used by their web frontend
+   - Multiple GitHub projects demonstrate scraping approaches
+   - Real-name auth required for any meaningful access
+   - Reference: CSDN blogs show API endpoint analysis
+
+2. **BOSS直聘 (Boss Zhipin)**
+   - **No official personal API** — enterprise-only via BossHi platform
+   - Multiple GitHub projects for automated greeting/resume sending
+   - High anti-bot protection with behavioral analysis
+   - Reference: Zhihu articles on interface analysis
+
+3. **Alternative Data Sources**
+   - **36氪 RSS**: Tech news with hiring announcements
+   - **SinoJobs RSS**: International job postings for China
+   - **LinkedIn China**: Still operational with RSS support
+   - **Company blogs/WeChat**: Many startups post jobs on WeChat first
+
+## Revised Implementation Strategy
+
+### Phase 1 (Immediate - No API Keys Needed)
+| Source | Method | Effort | Quality |
+|--------|--------|--------|---------|
+| V2EX | RSS | Low | High (tech-focused) |
+| 36氪 | RSS | Low | Medium (startup jobs) |
+| Mock Data | Generator | None | For testing |
+
+### Phase 2 (Requires Setup)
+| Source | Method | Prerequisites |
+|--------|--------|---------------|
+| 智联招聘 | Web scraping OR API | Real-name auth |
+| LinkedIn | RSS/API | Account |
+| 前程无忧 | Official API | Developer registration |
+
+### Phase 3 (Advanced)
+| Source | Method | Notes |
+|--------|--------|-------|
+| BOSS直聘 | Playwright + Stealth | High maintenance |
+| 拉勾网 | OCR + Scraping | Font obfuscation |
+| WeChat Search | Sogou scraping | Fragile |
+
+## Compliance & Ethics
+
+1. **Respect robots.txt** on all platforms
+2. **Rate limiting**: Max 1 request per 5 seconds
+3. **Non-commercial use only** for personal job search
+4. **Account safety**: Use dedicated accounts, not main profile
