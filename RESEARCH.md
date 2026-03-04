@@ -172,12 +172,35 @@ This document provides a technical breakdown of the target hiring platforms in C
 
 **Verdict**: No changes to API policy.
 
-### New Discovery: Get Jobs【AI找工作】— Oct 2025
-Found on Zhihu:
-- **Tool**: "Get Jobs【工作无忧】"
-- **Focus**: 中国大陆招聘平台自动化投递
-- **Features**: AI智能匹配 + 定时投递 + 实时通知
-- **Note**: Worth investigating as reference implementation
+### Major Discovery: get_jobs by loks666 — Nov 2025 ⭐
+**GitHub**: `loks666/get_jobs` (actively maintained, trending in Apr 2025)
+
+| Feature | Status |
+|---------|--------|
+| **Platforms** | BOSS直聘 ✅, 前程无忧 ✅, 猎聘 ✅, 拉勾 ✅, 智联招聘 ⚠️ |
+| **Function** | 全平台自动投简历脚本 (Auto-apply to all platforms) |
+| **Tech stack** | Java-based |
+| **License** | Non-commercial open source (禁止商业化) |
+| **Status** | 智联招聘 currently has issues; others working |
+| **Community** | Multiple forks, active PRs accepted |
+
+**Key Insight**: This is exactly what we're building — but they focus on auto-apply, we focus on intelligent matching first.
+
+### Platform Limits Discovered (Oct-Dec 2025)
+| Platform | Limit | Source |
+|----------|-------|--------|
+| **BOSS直聘** | ~100 new chats/day | Get Jobs docs |
+| **BOSS直聘** | Mobile more reliable than web | Dec 2025 blog |
+| **51job** | Has limits, lower quality jobs | Sep 2025 |
+| **拉勾** | Strict anti-bot, freq limits | Sep 2025 |
+| **智联** | Currently broken/unreliable | Nov 2025 |
+
+### Enterprise Risk Alert — Jan 2026
+> "企业花费巨资维护的招聘平台账号（如BOSS直聘、猎聘）已成为核心数字资产"
+> 
+> — IRC-Soft enterprise risk guide (2 days ago)
+>
+> **Translation**: Company accounts on these platforms are now considered core digital assets due to strict anti-fraud measures.
 
 ### Industry Trends 2024-2025
 - **Anti-bot escalation**: Cloudflare per-customer bot defenses (Sep 2025)
