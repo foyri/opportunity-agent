@@ -12,8 +12,9 @@ This document provides a technical breakdown of the target hiring platforms in C
 
 ### 猎聘 (Liepin)
 *   **Characteristics**: Focuses on mid-to-high level positions ($100k+ RMB). Good for AI Product roles.
+*   **API Access**: ❌ **No personal API available** — enterprise-only
 *   **Technical Challenge**: Moderate anti-scraping.
-*   **Strategy**: Web scraping. Structure is relatively consistent.
+*   **Strategy**: Web scraping with Playwright. Structure is relatively consistent.
 
 ### 拉勾网 (Lagou)
 *   **Characteristics**: Specifically for tech and internet companies.
@@ -51,7 +52,7 @@ This document provides a technical breakdown of the target hiring platforms in C
 | **BOSS直聘** | ✅ 企业端有大模型 | ❌ 不开放个人 API | 企业版 9800+ 元/年 | 极高 | 需企业认证，个人无法申请 |
 | **智联招聘** | ✅ AI 招聘助手/智联推荐 | ✅ 个人可申请 | 免费版（基础额度） | 中等 | 需实名认证，非商业用途 |
 | **前程无忧** | ✅ AI 求职助手 | ✅ 个人可申请 | 免费版（基础额度） | 中等 | 需实名认证，限流限制 |
-| **猎聘** | ✅ 全流程 Agent | ✅ 个人可申请 | 免费版（基础额度） | 中等 | 个人仅限岗位监控 |
+| **猎聘** | ✅ 全流程 Agent | ❌ 不开放个人 API | 企业版 9800+ 元/年 | 极高 | 仅企业可申请，个人需用网页抓取 |
 | **拉勾招聘** | ✅ AI 智能匹配 | ❌ 不开放个人 API | 企业版 12800+ 元/年 | 极高 | 个人无法申请，反爬严格 |
 | **实习僧** | ✅ AI 岗位匹配 | ✅ 个人可申请 | 免费版（限次） | 中等 | 需 IP 白名单及实名认证 |
 | **脉脉** | ✅ AI 人才搜索 | ❌ 不开放个人 API | 企业版 2 万+ 元/年 | 极高 | 社交数据不对外，需企业合作 |
@@ -72,7 +73,8 @@ This document provides a technical breakdown of the target hiring platforms in C
     - Best for reliable, structured data monitoring without scraping risk.
 
 ### 猎聘 (Liepin)
-*   **Strategy**: Use Official API for job monitoring. High-level AI roles are often posted here first.
+*   **Strategy**: **No personal API available**. Use Playwright-based web scraping.
+*   **Note**: Enterprise-only API (9800+ 元/年). Personal users must scrape the website.
 
 ### 微信公众号 (WeChat Official Accounts)
 *   **Strategy**: 
