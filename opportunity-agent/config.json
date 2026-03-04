@@ -75,5 +75,9 @@
   },
   "feedback": {
     "path": "data/feedback.json"
+  },
+  "search": {
+    "serper_api_key": "ba5f047f245fdfc6d867567ea9de2212b6f9818a",
+    "enabled": true
   }
 }
