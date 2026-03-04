@@ -1,0 +1,39 @@
+Please analyze this job opportunity for the candidate:
+
+=== JOB OPPORTUNITY ===
+Title: {title}
+Company: {company}
+Location: {location}
+Salary: {salary}
+Description: {description}
+URL: {url}
+
+=== CANDIDATE PROFILE ===
+Name: {candidate_name}
+Current Role: {current_role}
+Experience: {experience_summary}
+Skills: {skills}
+Preferences:
+- Desired roles: {desired_roles}
+- Preferred locations: {preferred_locations}
+- Salary expectation: {salary_expectation}
+- Constraints: {constraints}
+Background Notes: {background_notes}
+
+=== PREVIOUS FEEDBACK ===
+{feedback_context}
+
+Provide your analysis in this exact JSON format:
+{{
+  "score": <0-100>,
+  "confidence": "<high|medium|low>",
+  "fits": [
+    "<specific reason why it's a good fit>",
+    "<another fit point>"
+  ],
+  "gaps": [
+    "<potential concern or missing requirement>",
+    "<another gap if applicable>"
+  ],
+  "angle": "<one-sentence suggestion for how to position the application>"
+}}

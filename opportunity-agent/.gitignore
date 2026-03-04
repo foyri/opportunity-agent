@@ -1,0 +1,38 @@
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Feedback data
+data/feedback.json
+
+# Logs
+logs/
+*.log
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+build/
+dist/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Config with secrets (keep template only)
+config.local.json
+.env

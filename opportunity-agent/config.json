@@ -1,0 +1,79 @@
+{
+  "profile": {
+    "name": "Laurence",
+    "title": "AI Product Manager / AI Education Specialist",
+    "location": "China",
+    "background": [
+      "AI + Education hybrid background",
+      "Product Management experience",
+      "Photography and content creation skills",
+      "Vibe Coding - rapid prototyping ability"
+    ],
+    "skills": [
+      "AI Product Management",
+      "AI Education",
+      "Content Creation",
+      "Photography",
+      "Rapid Prototyping",
+      "Vibe Coding"
+    ],
+    "languages": ["English", "Chinese"],
+    "experience_years": 1
+  },
+  "preferences": {
+    "min_score_threshold": 60,
+    "high_score_threshold": 80,
+    "daily_digest_time": "08:30",
+    "cron_fetch_time": "08:00",
+    "max_opportunities_per_day": 10,
+    "target_roles": [
+      "AI Product Manager",
+      "AI Education Specialist",
+      "Product Manager",
+      "AI Researcher",
+      "Content Creator",
+      "Photographer"
+    ],
+    "locations": ["Remote", "Beijing", "Shanghai", "Shenzhen", "Hangzhou"]
+  },
+  "platforms": {
+    "liepin": {
+      "enabled": true,
+      "priority": 0,
+      "api_key": null,
+      "search_keywords": ["AI产品经理", "AI教育", "产品经理"]
+    },
+    "zhaopin": {
+      "enabled": true,
+      "priority": 0,
+      "api_key": null,
+      "search_keywords": ["AI产品", "AI教育", "产品经理"]
+    },
+    "v2ex": {
+      "enabled": true,
+      "priority": 1,
+      "rss_url": "https://www.v2ex.com/feed/jobs.xml"
+    },
+    "wechat_search": {
+      "enabled": false,
+      "priority": 2
+    }
+  },
+  "notifications": {
+    "channel": "telegram",
+    "digest_enabled": true,
+    "immediate_high_match": false
+  },
+  "calendar": {
+    "enabled": true,
+    "prefix": "[Job Hunt]",
+    "auto_add_deadlines": true,
+    "deadline_score_threshold": 80
+  },
+  "database": {
+    "path": "data/opportunities.db"
+  },
+  "feedback": {
+    "path": "data/feedback.json"
+  }
+}

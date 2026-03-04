@@ -1,0 +1,82 @@
+{
+  "user_profile": {
+    "name": "Laurence",
+    "title": "Product Manager",
+    "location": "Shanghai, China",
+    "education": "Geography + Education background",
+    "skills": [
+      "AI Product Management",
+      "Vibe Coding",
+      "Rapid Prototyping",
+      "Photography"
+    ],
+    "experience_years": 1,
+    "languages": ["English", "Mandarin"],
+    "preferences": {
+      "role_types": ["Product Manager", "AI Product", "EdTech"],
+      "locations": ["Shanghai", "Remote"],
+      "company_size": ["Startup", "Mid-size"],
+      "min_salary": null,
+      "remote_ok": true
+    }
+  },
+  "apis": {
+    "liepin": {
+      "enabled": true,
+      "api_key": null,
+      "api_secret": null,
+      "endpoint": "https://api.liepin.com/api/v1",
+      "rate_limit": 100
+    },
+    "zhilian": {
+      "enabled": true,
+      "api_key": null,
+      "endpoint": "https://api.zhaopin.com/api/v1",
+      "rate_limit": 100
+    },
+    "51job": {
+      "enabled": false,
+      "api_key": null,
+      "endpoint": "https://api.51job.com/api/v1",
+      "rate_limit": 50
+    }
+  },
+  "sources": {
+    "v2ex_rss": {
+      "enabled": true,
+      "url": "https://www.v2ex.com/go/jobs/index.xml",
+      "check_interval_hours": 24
+    },
+    "wechat_search": {
+      "enabled": false,
+      "keywords": ["产品经理招聘", "AI产品经理"]
+    }
+  },
+  "scoring": {
+    "min_score_threshold": 60,
+    "high_score_threshold": 80,
+    "llm_model": "gpt-4o-mini",
+    "max_opportunities_per_run": 50
+  },
+  "notifications": {
+    "enabled": true,
+    "channel": "imessage",
+    "digest_time": "08:30",
+    "timezone": "Asia/Shanghai"
+  },
+  "calendar": {
+    "enabled": true,
+    "auto_add_deadlines": true,
+    "reminder_days_before": 3
+  },
+  "database": {
+    "path": "data/opportunities.db",
+    "backup_enabled": true
+  },
+  "logging": {
+    "level": "INFO",
+    "file": "data/agent.log",
+    "max_bytes": 10485760,
+    "backup_count": 5
+  }
+}
