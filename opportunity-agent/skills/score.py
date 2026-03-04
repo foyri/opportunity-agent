@@ -218,6 +218,7 @@ Focus on:
             'desired_roles': ', '.join(prefs.get('target_roles', [])),
             'preferred_locations': ', '.join(prefs.get('locations', [])),
             'constraints': p.get('constraints', 'None specified'),
+            'salary_expectation': prefs.get('salary_range', 'Competitive'),
         }
     
     def _get_feedback_context(self) -> str:
@@ -299,6 +300,9 @@ Focus on:
         if any(kw in prompt_lower for kw in ai_keywords):
             score += 15
             fits.append("AI-focused role matches your AI Product Management background")
+        else:
+            score -= 10
+            gaps.append("Not an AI-focused role - may not leverage your AI expertise")
         
         # Check for education keywords
         edu_keywords = ['education', 'edtech', 'learning', 'teaching', '教育', '学习']
@@ -311,12 +315,19 @@ Focus on:
         if any(kw in prompt_lower for kw in pm_keywords):
             score += 10
             fits.append("Product Management role matches your core skillset")
+        else:
+            gaps.append("Role may not be focused on product management")
         
         # Check for experience requirements
         exp_3plus = ['3年', '3+ years', '5年', '5+ years', 'senior', '高级']
         if any(kw in prompt_lower for kw in exp_3plus):
-            score -= 10
+            score -= 15
             gaps.append("Requires more experience than you currently have (1 year)")
+        
+        exp_1to2 = ['1年', '1+ years', '2年', '2+ years', 'junior', '初级']
+        if any(kw in prompt_lower for kw in exp_1to2):
+            score += 5
+            fits.append("Experience requirement matches your level")
         
         # Check for location fit
         preferred_locs = ['remote', 'beijing', 'shanghai', 'shenzhen', 'hangzhou', '北京', '上海', '深圳', '杭州']
@@ -325,10 +336,16 @@ Focus on:
             fits.append("Location matches your preferences")
         
         # Check for vibe coding / rapid prototyping mentions
-        vibe_keywords = ['vibe coding', 'rapid prototyping', '快速原型', '创业']
+        vibe_keywords = ['vibe coding', 'rapid prototyping', '快速原型', '创业', 'startup']
         if any(kw in prompt_lower for kw in vibe_keywords):
             score += 10
             fits.append("Vibe Coding culture matches your working style")
+        
+        # Penalize pure engineering roles (not PM)
+        eng_keywords = ['backend engineer', 'frontend engineer', 'software engineer', 'developer', '工程师', '开发']
+        if any(kw in prompt_lower for kw in eng_keywords):
+            score -= 20
+            gaps.append("Engineering-heavy role may not fit your PM background")
         
         # Ensure score is within bounds
         score = max(0, min(100, score))
@@ -336,7 +353,7 @@ Focus on:
         # Determine confidence
         if len(fits) >= 3 and len(gaps) <= 1:
             confidence = "high"
-        elif len(fits) >= 2:
+        elif len(fits) >= 2 or score >= 60:
             confidence = "medium"
         else:
             confidence = "low"
@@ -377,19 +394,20 @@ Focus on:
         profile = self._build_profile_context()
         feedback_ctx = self._get_feedback_context()
         
-        # Build the prompt
-        user_prompt = self.user_prompt_template.format(
+        # Build the prompt - merge profile and opportunity data
+        prompt_data = {
             **profile,
-            job_title=op_dict.get('title', ''),
-            company=op_dict.get('company', ''),
-            job_location=op_dict.get('location', ''),
-            description=op_dict.get('description', '')[:3000],  # Limit length
-            salary=op_dict.get('salary', 'Not specified'),
-            url=op_dict.get('url', ''),
-            posted_date=op_dict.get('posted_date', ''),
-            source=op_dict.get('source', ''),
-            feedback_context=feedback_ctx
-        )
+            'title': op_dict.get('title', ''),
+            'company': op_dict.get('company', ''),
+            'location': op_dict.get('location', ''),
+            'description': op_dict.get('description', '')[:3000],  # Limit length
+            'salary': op_dict.get('salary', 'Not specified'),
+            'url': op_dict.get('url', ''),
+            'posted_date': op_dict.get('posted_date', ''),
+            'source': op_dict.get('source', ''),
+            'feedback_context': feedback_ctx
+        }
+        user_prompt = self.user_prompt_template.format(**prompt_data)
         
         # Call LLM for analysis
         llm_response = self._call_llm_for_scoring(user_prompt)
