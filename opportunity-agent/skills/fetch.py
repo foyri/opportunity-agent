@@ -290,6 +290,93 @@ class OpportunityFetcher:
         return inserted
 
 
+class ManualJobAnalyzer:
+    """Analyzes manually submitted job URLs (for non-AI-friendly platforms)."""
+    
+    SUPPORTED_PATTERNS = {
+        'zhipin.com': 'boss',
+        'liepin.com': 'liepin',
+        'zhaopin.com': 'zhaopin',
+        'lagou.com': 'lagou',
+        '51job.com': '51job'
+    }
+    
+    @classmethod
+    def analyze_url(cls, url: str) -> Opportunity:
+        """Analyze a manually submitted job URL.
+        
+        For AI-friendly sources, tries to auto-fetch content.
+        For non-AI-friendly sources, prompts user to paste job description.
+        """
+        # Detect platform from URL
+        platform = None
+        for domain, name in cls.SUPPORTED_PATTERNS.items():
+            if domain in url:
+                platform = name
+                break
+        
+        if not platform:
+            return cls._create_manual_opportunity(url, "unknown")
+        
+        # Try to fetch automatically (may fail for anti-bot sites)
+        try:
+            return cls._try_auto_fetch(url, platform)
+        except Exception as e:
+            print(f"[manual] Auto-fetch failed for {platform}: {e}")
+            return cls._create_manual_opportunity(url, platform)
+    
+    @classmethod
+    def _try_auto_fetch(cls, url: str, platform: str) -> Opportunity:
+        """Attempt to fetch job details automatically."""
+        import requests
+        from bs4 import BeautifulSoup
+        
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36'
+        }
+        
+        response = requests.get(url, headers=headers, timeout=10)
+        soup = BeautifulSoup(response.text, 'html.parser')
+        
+        # Platform-specific extraction (basic)
+        if platform == 'v2ex':
+            title = soup.find('h1').get_text(strip=True) if soup.find('h1') else "Unknown"
+            return Opportunity(
+                id=f"manual_v2ex_{hash(url) % 10000000}",
+                source='v2ex',
+                title=title,
+                company="From V2EX",
+                location="Remote/Various",
+                description=soup.get_text()[:2000],
+                url=url
+            )
+        
+        # For other platforms, likely blocked — fall back to manual
+        raise Exception("Auto-fetch likely blocked by anti-bot")
+    
+    @classmethod
+    def _create_manual_opportunity(cls, url: str, platform: str) -> Opportunity:
+        """Create placeholder opportunity requiring manual input."""
+        return Opportunity(
+            id=f"manual_{platform}_{hash(url) % 10000000}",
+            source=f'manual_{platform}',
+            title=f"[PENDING] Job from {platform}",
+            company="Unknown (paste JD to analyze)",
+            location="Unknown",
+            description=f"URL: {url}\n\nPlease paste job description to analyze.",
+            url=url,
+            raw_data={'requires_manual_input': True, 'platform': platform}
+        )
+    
+    @classmethod
+    def complete_with_description(cls, opportunity: Opportunity, description: str) -> Opportunity:
+        """Complete a manual opportunity with user-provided description."""
+        opportunity.description = description
+        opportunity.raw_data['requires_manual_input'] = False
+        opportunity.raw_data['user_provided_description'] = True
+        return opportunity
+
+
 if __name__ == "__main__":
     # Test the fetch skill
     fetcher = OpportunityFetcher()
@@ -297,3 +384,16 @@ if __name__ == "__main__":
     print(f"\nTotal fetched: {len(ops)}")
     for op in ops[:5]:
         print(f"- [{op.source}] {op.title} @ {op.company} ({op.location})")
+    
+    # Test manual analyzer
+    print("\n--- Testing Manual Analyzer ---")
+    test_urls = [
+        "https://www.zhipin.com/job_detail/abc123.html",
+        "https://www.liepin.com/job/1234567890.shtml",
+        "https://www.v2ex.com/t/1234567"
+    ]
+    for url in test_urls:
+        op = ManualJobAnalyzer.analyze_url(url)
+        print(f"Manual: [{op.source}] {op.title}")
+        if op.raw_data.get('requires_manual_input'):
+            print(f"  → Requires manual job description input")
