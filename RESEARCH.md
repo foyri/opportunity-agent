@@ -137,3 +137,53 @@ This document provides a technical breakdown of the target hiring platforms in C
 2. **Rate limiting**: Max 1 request per 5 seconds
 3. **Non-commercial use only** for personal job search
 4. **Account safety**: Use dedicated accounts, not main profile
+
+---
+
+## Fresh Web Search Findings (2024-2025 Only)
+
+> Searched with time filter ≤1 year using SerperAPI to ensure current information.
+
+### 智联招聘 (Zhaopin) — 2024-2025 Update
+| Metric | Data | Date |
+|--------|------|------|
+| Database size | 800,000+ postings analyzed in research | Dec 2025 |
+| Revenue trend | Declining: 6.35亿 AUD → 5.61亿 AUD (-13.2%) | Aug 2025 |
+| AI integration | AI招聘助手 on Baidu AI platform | Apr 2025 |
+| API status | Still no open personal API; enterprise-focused | 2025 |
+
+**Verdict**: No change — still requires real-name auth, no developer-friendly API.
+
+### BOSS直聘 — 2024-2025 Update
+| Metric | Data | Date |
+|--------|------|------|
+| Revenue | Growing: 68.07亿元 → 77.61亿元 (+14%) | Aug 2025 |
+| AI model | Nanbeige4-3B released (beats Qwen3-32B) | Dec 2025 |
+| Anti-bot | Still aggressive; new workarounds published monthly | Dec 2025 |
+| API status | No personal API; enterprise-only continues | 2025 |
+
+**Verdict**: Stronger financially, same API restrictions. Scraping remains high-risk.
+
+### 猎聘 (Liepin) — 2024-2025 Update
+| Metric | Data | Date |
+|--------|------|------|
+| Awards | 2024非凡雇主活动 winner | Mar 2025 |
+| API status | Enterprise-only (9800+ 元/year) unchanged | 2025 |
+
+**Verdict**: No changes to API policy.
+
+### New Discovery: Get Jobs【AI找工作】— Oct 2025
+Found on Zhihu:
+- **Tool**: "Get Jobs【工作无忧】"
+- **Focus**: 中国大陆招聘平台自动化投递
+- **Features**: AI智能匹配 + 定时投递 + 实时通知
+- **Note**: Worth investigating as reference implementation
+
+### Industry Trends 2024-2025
+- **Anti-bot escalation**: Cloudflare per-customer bot defenses (Sep 2025)
+- **Legal framework**: Network data crawling legality standards evolving (Oct 2025 paper)
+- **Skill demand**: Web逆向 engineers see 60%+ salary premium (Nov 2025)
+- **BOSS dominance**: Revenue growth while 智联 declines suggests market consolidation
+
+### Key Insight
+> The landscape hasn't improved for personal API access. If anything, platforms are doubling down on anti-scraping as AI automation threats increase. Hybrid human-AI approach remains optimal strategy.
